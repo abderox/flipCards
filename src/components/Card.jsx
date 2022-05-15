@@ -1,13 +1,17 @@
 
 import { useState } from 'react';
 
-const Card = ({ card, handleChoice, flipped, matched }) => {
+const Card = ({ card, handleChoice, flipped, matched ,disabled}) => {
 
     const transition = "-translate-x-full transition duration-1000 ease-out ";
 
 
     const handleClick = () => {
-        handleChoice(card);
+        if (!disabled)
+        {
+            handleChoice(card);
+        }
+           
     }
 
     return (
@@ -57,7 +61,7 @@ const Card = ({ card, handleChoice, flipped, matched }) => {
 
                     <img
                         src={'https://copper2.wpengine.com/wp-content/uploads/2021/05/Ethernew-01.jpg'}
-                        onClick={handleClick}
+                        onClick={!flipped && handleClick}
                         alt="nature"
                         className="w-full h-56 2xl:h-96 rounded-md shadow-lg object-cover "
                     />

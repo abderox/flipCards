@@ -1,4 +1,4 @@
-import { useState, useEffect,useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { scroller } from "react-scroll";
 import { Card, Popup, Sound_ } from './export'
 import logo from "../../images/koar.png";
@@ -64,6 +64,7 @@ const GameContent = () => {
     const [ChoiceTwo, setChoiceTwo] = useState(null);
     const [retries, setretries] = useState(0);
     const [isPlaying, setisPlaying] = useState(false);
+    const [Disabled, setDisabled] = useState(false)
     const success = useRef(false)
 
 
@@ -74,7 +75,8 @@ const GameContent = () => {
             .map((image) => ({ ...image, id: Math.random() }));
         setCards(shuffleCards);
         scrollToSection("horary");
-       
+        setChoice(null);
+        setChoiceTwo(null)
         setretries(prev => prev + 1)
         setTurns(0)
         setfails(0)
@@ -103,10 +105,11 @@ const GameContent = () => {
 
     useEffect(() => {
 
-
+      
         if (Choice && ChoiceTwo) {
+            setDisabled(true)
             if (Choice.src === ChoiceTwo.src) {
-               success.current = true;
+                success.current = true;
                 setCards(prev => {
                     return prev.map(card => {
                         if (card.src === Choice.src) {
@@ -118,21 +121,21 @@ const GameContent = () => {
                     });
                 })
                 console.log("horary");
-                
+
                 resetTurn();
-                
+
                 if (turns - fails === (imagesSources.length)) {
                     setTurns(0)
                     setfails(0)
                 }
             }
             else {
-                
+
                 setTimeout(() => {
                     success.current = false;
                     resetFail();
                     resetTurn();
-                    
+
                 }, 1000);
 
 
@@ -148,15 +151,17 @@ const GameContent = () => {
         setChoice(null);
         setChoiceTwo(null);
         setfails(prev => prev + 1);
+
     }
 
     const resetTurn = () => {
-        
+
         setChoice(null);
         setChoiceTwo(null);
         setTurns(prev => prev + 1);
+        setDisabled(false)
         setTimeout(() => {
-            success.current = false;     
+            success.current = false;
         }, 1000);
 
     }
@@ -212,7 +217,7 @@ const GameContent = () => {
 
                 {cards.map((card, i) => (
 
-                    <Card key={card.id} card={card} handleChoice={handleChoice} flipped={card === ChoiceTwo || card === Choice || card.matched} matched={card === ChoiceTwo || card === Choice && !card.matched} />
+                    <Card key={card.id} card={card} handleChoice={handleChoice} flipped={card === ChoiceTwo || card === Choice || card.matched} matched={card === ChoiceTwo || card === Choice && !card.matched} disabled={Disabled} />
 
                 ))}
 
