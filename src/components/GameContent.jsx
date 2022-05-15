@@ -5,7 +5,7 @@ import logo from "../../images/koar.png";
 import me from "../../images/ABDELHADI.png";
 
 // window.location.origin+
-const imagesUrl = "/images/";
+const imagesUrl = "../../images/";
 const extension = ".jpg";
 
 
