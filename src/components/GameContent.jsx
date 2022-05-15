@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { scroller } from "react-scroll";
-import { Card ,Popup} from './export'
+import { Card, Popup, Sound_ } from './export'
 import logo from "../../images/koar.png";
 import me from "../../images/ABDELHADI.png";
 
 
-const imagesUrl = window.location.origin+"/flipCards/images/";
+const imagesUrl = window.location.origin + "/flipCards/images/";
 const extension = ".jpg";
 
 
@@ -24,20 +24,31 @@ const imagesSources = [
 
 const scrollToSection = (here) => {
     scroller.scrollTo(here, {
-      duration: 700,
-      delay: 0,
-      smooth: "easeInOutQuart",
+        duration: 700,
+        delay: 0,
+        smooth: "easeInOutQuart",
     });
-  };
+};
 const StartButton = ({ title, clickHandler }) => {
     return (
 
-        <button onClick={() => clickHandler()} className="relative inline-flex items-center w-2/6 mf:w-1/6  justify-center p-4 px-6 py-3 white-glassmorphism overflow-hidden font-medium  transition duration-300 ease-out border-2  rounded-full shadow-md group cursor-pointer text-white " >
+        <button onClick={() => clickHandler()} className="relative inline-flex items-center w-5/6 mf:w-5/6   justify-center p-4 px-6 py-3 white-glassmorphism overflow-hidden font-medium  transition duration-300 ease-out border-2  rounded-full shadow-md group cursor-pointer text-white " >
             <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-green-700 group-hover:translate-x-0 ease">
                 <img src="https://img.icons8.com/flat-round/28/000000/play--v1.png" />
             </span>
             <img src="https://img.icons8.com/flat-round/28/000000/play--v1.png" /> <span className="absolute flex items-center justify-center w-full h-full text-white mf:text-lg transition-all duration-300 transform group-hover:translate-x-full ease ml-10 text-sm">{title}</span>
             <span className="relative invisible   ">{title}</span>
+        </button>
+    );
+};
+const StartMusic = ({ title, clickHandler, isPlaying_ }) => {
+    return (
+
+        <button onClick={() => clickHandler()} className="flex  items-center   justify-center   white-glassmorphism  font-medium  p-1 rounded-full shadow-md  cursor-pointer text-white m-2" >
+            <span className="  flex items-center justify-center  text-white rounded-full">
+                {isPlaying_ ? (<img src="https://img.icons8.com/ios-glyphs/30/26e07f/mute--v1.png" />) : (<img src="https://img.icons8.com/ios-glyphs/30/26e07f/musical-notes.png" />)}
+            </span>
+
         </button>
     );
 };
@@ -52,6 +63,7 @@ const GameContent = () => {
     const [Choice, setChoice] = useState(null);
     const [ChoiceTwo, setChoiceTwo] = useState(null);
     const [retries, setretries] = useState(0);
+    const [isPlaying, setisPlaying] = useState(false);
 
 
     const shuffleCards = () => {
@@ -61,12 +73,14 @@ const GameContent = () => {
             .map((image) => ({ ...image, id: Math.random() }));
         setCards(shuffleCards);
         scrollToSection("horary");
+       
         setretries(prev => prev + 1)
         setTurns(0)
         setfails(0)
         console.log(cards, turns)
         const timer = setTimeout(() => {
             flipAll();
+            setisPlaying(true)
         }, 3000);
 
     }
@@ -148,16 +162,20 @@ const GameContent = () => {
                         />
                     </a>
                     <h1 className=" text-[60px] text-center my-2 text-gradient transfer-btn-text ">
-                     Crypto Memory Cards
+                        Crypto Memory Cards
                     </h1>
                 </div>
             </div>
 
+            <div class=" flex  ">
+                <StartButton key='12' title={cards.length > 0 ? "Restart" : "New game"} clickHandler={shuffleCards} />
+                <StartMusic key='10' title={isPlaying ? "Stop" : "Play Sound"} clickHandler={() => setisPlaying(!isPlaying)} isPlaying_={isPlaying} />
+            </div>
+            <Sound_ isPlaying={isPlaying} />
 
-            <StartButton title={cards.length > 0 ? "Restart" : "New game"} clickHandler={shuffleCards} />
             <div className="w-full mf:w-4/6 my-5 blue-glassmorphism justify-center items-center rounded-full">
 
-                <div  className="horary flex flex-col  ">
+                <div className="horary flex flex-col  ">
                     <a href="#_" className="relative inline-flex items-center justify-center inline-block p-4 px-5 py-3 overflow-hidden text-indigo-600 rounded-lg shadow-2xl group">
                         <span class="absolute top-0 left-0 w-40 h-40 -mt-10 -ml-3 transition-all duration-700 bg-pink-500 rounded-full blur-md ease"></span>
                         <span class="absolute inset-0 w-full h-full transition duration-700 group-hover:rotate-180 ease">

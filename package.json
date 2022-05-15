@@ -13,7 +13,8 @@
     "gh-pages": "^4.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "react-sound": "^1.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
@@ -25,3 +26,4 @@
     "vite": "^2.9.7"
   }
 }
+
