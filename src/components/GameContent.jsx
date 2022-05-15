@@ -113,7 +113,7 @@ const GameContent = () => {
                 setTimeout(() => {
                     resetFail();
                     resetTurn();
-                }, 2000);
+                }, 1000);
 
 
             }
