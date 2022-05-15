@@ -4,8 +4,8 @@ import { Card ,Popup} from './export'
 import logo from "../../images/koar.png";
 import me from "../../images/ABDELHADI.png";
 
-// window.location.origin+
-const imagesUrl = "../../images/";
+
+const imagesUrl = window.location.origin+"/flipCards/images/";
 const extension = ".jpg";
 
 
