@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef } from 'react';
 import { scroller } from "react-scroll";
 import { Card, Popup, Sound_ } from './export'
 import logo from "../../images/koar.png";
@@ -64,6 +64,7 @@ const GameContent = () => {
     const [ChoiceTwo, setChoiceTwo] = useState(null);
     const [retries, setretries] = useState(0);
     const [isPlaying, setisPlaying] = useState(false);
+    const success = useRef(false)
 
 
     const shuffleCards = () => {
@@ -105,6 +106,7 @@ const GameContent = () => {
 
         if (Choice && ChoiceTwo) {
             if (Choice.src === ChoiceTwo.src) {
+               success.current = true;
                 setCards(prev => {
                     return prev.map(card => {
                         if (card.src === Choice.src) {
@@ -116,17 +118,21 @@ const GameContent = () => {
                     });
                 })
                 console.log("horary");
+                
                 resetTurn();
+                
                 if (turns - fails === (imagesSources.length)) {
                     setTurns(0)
                     setfails(0)
                 }
             }
             else {
-
+                
                 setTimeout(() => {
+                    success.current = false;
                     resetFail();
                     resetTurn();
+                    
                 }, 1000);
 
 
@@ -145,9 +151,14 @@ const GameContent = () => {
     }
 
     const resetTurn = () => {
+        
         setChoice(null);
         setChoiceTwo(null);
         setTurns(prev => prev + 1);
+        setTimeout(() => {
+            success.current = false;     
+        }, 1000);
+
     }
     return (
         <div className="gradient-bg-welcome flex flex-col p-5 justify-center items-center">
@@ -171,7 +182,7 @@ const GameContent = () => {
                 <StartButton key='12' title={cards.length > 0 ? "Restart" : "New game"} clickHandler={shuffleCards} />
                 <StartMusic key='10' title={isPlaying ? "Stop" : "Play Sound"} clickHandler={() => setisPlaying(!isPlaying)} isPlaying_={isPlaying} />
             </div>
-            <Sound_ isPlaying={isPlaying} />
+            <Sound_ isPlaying={isPlaying} success={success.current} />
 
             <div className="w-full mf:w-4/6 my-5 blue-glassmorphism justify-center items-center rounded-full">
 
@@ -182,7 +193,7 @@ const GameContent = () => {
                             <span class="absolute bottom-0 left-0 w-24 h-24 -ml-10 bg-purple-800 rounded-full blur-md"></span>
                             <span class="absolute bottom-0 right-0 w-24 h-24 -mr-10 bg-violet-800 rounded-full blur-md"></span>
                         </span>
-                        <span class="relative text-white text-lg font-semibold ">Attempts {retries}</span>
+                        <span class="relative text-white text-lg   font-semibold ">Attempts {retries}</span>
                         <span class={`relative text-white text-lg font-semibold ml-10  ${turns - fails > 0 && "text-green-500"}`}>Scores {turns - fails > 0 ? turns - fails : 0}</span>
                         <span class="relative text-white text-lg font-semibold ml-10">Turns {turns}</span>
                         <span class={`relative text-white text-lg font-semibold ml-10 ${fails > 0 && "text-pink-500"}`}>Fails {fails}</span>

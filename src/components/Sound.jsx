@@ -1,17 +1,14 @@
 
 import Sound from 'react-sound';
-import sound from '../../public/sound.mp3';
-
-const  Sound_ =({isPlaying,handleSongLoading,handleSongPlaying,handleSongFinishedPlaying}) =>{
+import sound from '../../public/sounds.mp3';
+import tada from '../../public/tada.mp3';
+const  Sound_ =({isPlaying,success}) =>{
   return (
     <Sound
-      url={sound}
-      playStatus={isPlaying ? Sound.status.PLAYING : Sound.status.STOP}
-      playFromPosition={300}
-      onLoading={handleSongLoading}
-      onPlaying={handleSongPlaying}
-      onFinishedPlaying={handleSongFinishedPlaying}
-      loop={true}
+      url={success ? tada : sound}
+      playStatus={isPlaying ? Sound.status.PLAYING : Sound.status.PAUSED}
+      playFromPosition={0}
+      
     />
   )
 }

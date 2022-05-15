@@ -17,8 +17,8 @@ const Card = ({ card, handleChoice, flipped, matched }) => {
         mf:max-h-[170px]
         sm:max-w-[150px]
         sm:max-h-[150px]
-        max-w-[100px]
-        max-h-[100px]
+        max-w-[200px]
+        max-h-[150px]
         flex-col p-2 rounded-md  overflow-hidden`} >
 
             <div className=" 
